@@ -1,0 +1,53 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int n;
+    cin>>n;
+    
+    int arr[n];
+    
+    for(int i=0;i<n;i++) cin>>arr[i];
+    
+    // sorting
+    
+    for(int i=0;i<n-1;i++)
+    {
+        for(int j=i+1;j<n;j++)
+        {
+            if(arr[j]<arr[i])
+            {
+                int temp=arr[j];
+                arr[j]=arr[i];
+                arr[i]=temp;
+            }
+        }
+    }
+    
+    
+    for(int i=0;i<n;i++)
+    {
+        cout<<arr[i]<<" ";
+    }cout<<endl;
+    
+    
+    return 0;
+}
+
+
+Time Complexity: The time complexity of Selection Sort is O(N2) as there are two nested loops:
+
+One loop to select an element of Array one by one = O(N)
+Another loop to compare that element with every other Array element = O(N)
+Therefore overall complexity = O(N) * O(N) = O(N*N) = O(N2)
+
+Auxiliary Space: O(1)
+
+
+
+
+
+
+
+
