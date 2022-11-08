@@ -5,7 +5,7 @@ position in the sorted part, and shift the elements accordingly.
 
 Time Complexity: O(N^2)
 
-
+------------------------------------------------------------------ITERATIVE + RECURSIVE--------------------------------------------------------------------------
 
 #include<bits/stdc++.h>
 using namespace std;
@@ -37,6 +37,64 @@ int main()
    }
     
     
+    
+    for(int i=0;i<n;i++)
+    {
+        cout<<arr[i]<<" ";
+    }cout<<endl;
+    
+    
+    return 0;
+}
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+RECURSIVE INSERTION SORT--------------------------------------------------
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+void insertion_sort(int arr[],int n)
+{
+    if(n<=1) return;
+    
+    
+    insertion_sort(arr,n-1); // sort the first n-1 elements
+    
+    int last=arr[n-1];
+    int j=n-2;
+    
+    while(j>=0 and arr[j]>last)
+    {
+        arr[j+1]=arr[j];
+        j--;
+    }
+    
+    arr[j+1]=last;
+    
+    
+    
+    
+    
+}
+
+int main()
+{
+    int n;
+    cin>>n;
+    
+    int arr[n];
+    
+    for(int i=0;i<n;i++) cin>>arr[i];
+    
+    // sorting
+    
+    insertion_sort(arr,n);
     
     for(int i=0;i<n;i++)
     {
