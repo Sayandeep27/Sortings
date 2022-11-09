@@ -7,6 +7,12 @@ Best Case Time Complexity: O(N). The best case occurs when an array is already s
 
 Auxiliary Space: O(1)
 
+
+Is the Bubble sort algorithm stable?
+Yes, the bubble sort algorithm is stable.
+
+
+
 --------------------------ITERATIVE + RECURSIVE------------------------------------------------------------
 
 #include<bits/stdc++.h>
