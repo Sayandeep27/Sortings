@@ -1,0 +1,87 @@
+class Solution {
+public:
+    
+    void merge(int start,int mid,int end,vector<pair<int,int>>&v,vector<int>&cnt)
+    {
+        int i=start;
+        int j=mid+1;
+
+        vector<pair<int,int>>temp(end-start+1);
+
+        int index=0;
+
+        while(i<=mid and j<=end)
+        {
+            if(v[i].first>v[j].first)  // sorting in decreasing order
+            {
+                cnt[v[i].second]+=(end-j+1);
+
+                temp[index]=v[i];
+                index++;
+                i++;
+            }
+            else
+            {
+                temp[index]=v[j];
+                index++;
+                j++;
+            }
+        }
+
+        while(i<=mid)
+        {
+            temp[index]=v[i];
+            index++;
+            i++;
+        }
+
+        while(j<=end)
+        {
+            temp[index]=v[j];
+            index++;
+            j++;
+        }
+
+        int k=start;
+
+        for(int i=0;i<temp.size();i++)
+        {
+            v[k]=temp[i];
+            k++;
+        }
+    }
+
+
+     void mergesort(int start,int end,vector<pair<int,int>>&v,vector<int>&cnt)
+     {
+         // base case
+         if(start>=end) return;
+
+         int mid=start+(end-start)/2;
+
+         mergesort(start,mid,v,cnt);
+         mergesort(mid+1,end,v,cnt);
+         merge(start,mid,end,v,cnt);
+     }
+
+
+    vector<int> countSmaller(vector<int>& nums) {
+ 
+       int n=nums.size();
+       
+       vector<pair<int,int>>v;
+
+       for(int i=0;i<n;i++)
+       {
+           v.push_back({nums[i],i});
+       }
+
+
+       vector<int>cnt(n,0);
+
+       mergesort(0,n-1,v,cnt);
+
+       return cnt;
+    
+    }
+};
