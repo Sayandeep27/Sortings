@@ -11,95 +11,77 @@ Space Complexity: O(N) Since we need an arbitrary array as well.
 #include<bits/stdc++.h>
 using namespace std;
 
-
-void conquer(vector<int>&v,int start,int mid,int end)
-{
-    vector<int>ans(end-start+1,-1);
+class Solution {
+public:
     
-    int i=start;
-    int j=mid+1;
-    
-    int index=0;
-    
-    while(i<=mid and j<=end)
+    void merge(int start,int mid,int end,vector<int>&nums)
     {
-        if(v[i]<=v[j])
+        vector<int>temp(end-start+1);
+        int i=start;
+        int j=mid+1;
+        int index=0;
+
+        while(i<=mid and j<=end)
         {
-            ans[index]=v[i];
-            index++;
+            if(nums[i]<=nums[j])
+            {
+                temp[index]=nums[i];
+                i++;
+                index++;
+            }
+            else
+            {
+                temp[index]=nums[j];
+                j++;
+                index++;
+            }
+        }
+
+
+        while(i<=mid)
+        {
+            temp[index]=nums[i];
             i++;
-        }
-        else
-        {
-            ans[index]=v[j];
             index++;
-            j++;
         }
-        
-    }
-    
-    
-    while(i<=mid)
-    {
-        ans[index]=v[i];
-        index++;
-        i++;
-    }
-    
-    while(j<=end)
-    {
-        ans[index]=v[j];
-        index++;
-        j++;
-    }
-    
-    
-     j=start;
-    for(int i=0;i<ans.size();i++)
-    {
-        v[j]=ans[i];
-        j++;
-    }
-    
-    
-}
 
-void divide(vector<int>&v,int start,int end)
-{
-    
-    if(start>=end)
-    {
-        return;
+        while(j<=end)
+        {
+            temp[index]=nums[j];
+            j++;
+            index++;
+        }
+
+        int k=start;
+
+        for(int i=0;i<temp.size();i++)
+        {
+            nums[k]=temp[i];
+            k++;
+        }
     }
-    
-    
-    int mid=start+(end-start)/2;
-    
-    divide(v,start,mid);
-    divide(v,mid+1,end);
-    
-    conquer(v,start,mid,end);
-    
-}
 
-int main() {
+    void mergesort(int start,int end,vector<int>&nums)
+    {
+        // base case
+        if(start>=end) return;
 
-     int n; cin>>n;
-     
-     vector<int>v(n,-1);
-     
-     for(int i=0;i<n;i++) cin>>v[i];
-     
-    // merge sort
-    
-    divide(v,0,n-1);
-     
-     
-     for(auto it:v)
-     {
-         cout<<it<<" ";
-     }
-       
+        int mid=start+(end-start)/2;
 
-    return 0;
-}
+        mergesort(start,mid,nums);
+        mergesort(mid+1,end,nums);
+
+        merge(start,mid,end,nums);
+    }  
+
+
+    vector<int> sortArray(vector<int>& nums) {
+           
+           int n=nums.size();
+
+
+           mergesort(0,n-1,nums);
+
+           return nums;
+    }
+};
