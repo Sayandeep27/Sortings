@@ -1,0 +1,93 @@
+class Solution {
+public:
+
+    int merge(int start,int mid,int end,vector<int>&nums)
+    {
+         int i=start;
+         int j=mid+1;
+         int cnt=0;
+
+         for(int i=start;i<=mid;i++)
+         {
+             while(j<=end and nums[i]>2LL*nums[j])
+             {
+                 j++;
+             }
+
+             cnt+=(j-(mid+1));
+         }
+
+
+         vector<int>temp(end-start+1);
+         int index=0;
+
+         i=start;
+         j=mid+1;
+
+         while(i<=mid and j<=end)
+         {
+             if(nums[i]<=nums[j])
+             {
+                 temp[index]=nums[i];
+                 i++;
+                 index++;
+             }
+             else
+             {
+                 temp[index]=nums[j];
+                 j++;
+                 index++;
+             }
+         }
+
+
+         while(i<=mid)
+         {
+             temp[index]=nums[i];
+             i++;
+             index++;
+         }
+
+
+         while(j<=end)
+         {
+             temp[index]=nums[j];
+             j++;
+             index++;
+         }
+
+         int k=start;
+
+         for(int i=0;i<temp.size();i++)
+         {
+             nums[k]=temp[i];
+             k++;
+         }
+
+        return cnt;
+
+
+    }
+
+    int mergesort(int start,int end,vector<int>&nums)
+    {
+        if(start>=end) return 0;
+
+        int inv=0;
+
+        int mid=start+(end-start)/2;
+
+        inv+=mergesort(start,mid,nums);
+        inv+=mergesort(mid+1,end,nums);
+        inv+=merge(start,mid,end,nums);
+
+        return inv;
+    }
+
+    int reversePairs(vector<int>& nums) {
+        
+        int n=nums.size();
+
+        return mergesort(0,n-1,nums);
+    }
+};
