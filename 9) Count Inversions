@@ -1,0 +1,75 @@
+ long long int cnt=0;
+    
+    void merge(long long start,long long mid,long long end,long long nums[])
+    {
+        vector<long long>temp;
+        long long i=start;
+        long long j=mid+1;
+       
+        while(i<=mid and j<=end)
+        {
+            if(nums[i]<=nums[j])
+            {
+                temp.push_back(nums[i]);
+                i++;
+               
+            }
+            else
+            {
+                temp.push_back(nums[j]);
+                cnt+=(mid-i+1);
+                j++;
+               
+            }
+        }
+
+
+        while(i<=mid)
+        {
+            temp.push_back(nums[i]);
+            i++;
+            
+        }
+
+        while(j<=end)
+        {
+            temp.push_back(nums[j]);
+            j++;
+            
+        }
+
+        long long k=start;
+
+        for(long long i=0;i<temp.size();i++)
+        {
+            nums[k]=temp[i];
+            k++;
+        }
+    }
+
+    
+    void mergesort(long long arr[],long long start,long long end)
+    {
+        // base case
+        if(start>=end) return;
+        
+        long long mid=start+(end-start)/2;
+        
+        mergesort(arr,start,mid);
+        mergesort(arr,mid+1,end);
+        
+        merge(start,mid,end,arr);
+        
+    }
+    
+    
+    long long int inversionCount(long long arr[], long long n)
+    { 
+         long long start=0,end=n-1;
+        
+         
+         mergesort(arr,start,end);
+         
+         
+         return cnt;
+    }
