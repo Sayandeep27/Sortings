@@ -1,0 +1,89 @@
+class Solution {
+public:
+    int cnt=0;
+
+    void merge(vector<int>&nums,int start,int mid,int end)
+    {
+        int i=start;
+        int j=mid+1;
+
+        vector<int>temp;
+
+        while(i<=mid and j<=end)
+        {
+            if(nums[i]<=nums[j])
+            {
+                temp.push_back(nums[i]);
+                i++;
+            }
+            else
+            {
+                temp.push_back(nums[j]);
+                j++;
+            }
+        }
+
+
+        while(i<=mid)
+        {
+            temp.push_back(nums[i]);
+            i++;
+        }
+
+        while(j<=end)
+        {
+            temp.push_back(nums[j]);
+            j++;
+        }
+
+        int k=start;
+
+        for(int i=0;i<temp.size();i++)
+        {
+            nums[k]=temp[i];
+            k++;
+        }
+    }
+
+    void countpairs(vector<int>&nums,int start,int mid,int end)
+    {
+        int right=mid+1;
+
+        for(int i=start;i<=mid;i++)
+        {
+            while(right<=end and nums[i]>2LL*nums[right])
+            {
+                right++;
+            }
+
+            cnt+=(right-(mid+1));
+        }
+    }
+   
+    void mergesort(vector<int>&nums,int start,int end)
+    {
+        // base case
+        if(start>=end) return;
+
+        int mid=start+(end-start)/2;
+
+        mergesort(nums,start,mid);
+        mergesort(nums,mid+1,end);
+
+        countpairs(nums,start,mid,end);
+        merge(nums,start,mid,end);
+    }
+
+    int reversePairs(vector<int>& nums) {
+         
+         int n=nums.size();
+
+         int start=0;
+         int end=n-1;
+
+         mergesort(nums,start,end);
+
+         return cnt;
+
+    }
+};
