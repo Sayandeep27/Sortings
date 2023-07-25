@@ -1,0 +1,54 @@
+void bucketSort(float arr[],int n)
+{
+    vector<float>v[n];
+
+
+    // putting array elements in diff buckets
+
+    for(int i=0;i<n;i++)
+    {
+        int index=n*arr[i];
+
+        v[index].push_back(arr[i]);
+    }
+
+
+    // sort individual buckets
+    for(int i=0;i<n;i++)
+    {
+        sort(v[i].begin(),v[i].end());
+    }
+
+    // concatenate all buckets into array
+    int index=0;
+
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<v[i].size();j++)
+        {
+            arr[index]=v[i][j];
+            index++;
+        }
+    }
+}
+
+void solve()
+{   
+
+    int n=6;
+    float arr[n];   //  0.897, 0.565, 0.656, 0.1234, 0.665, 0.3434
+
+    for(int i=0;i<n;i++) cin>>arr[i];
+
+    bucketSort(arr,n);    
+    
+
+    for(int i=0;i<n;i++)
+    {
+        cout<<arr[i]<<" ";
+    }    
+
+    cout<<endl;
+
+
+}
