@@ -4,30 +4,45 @@ using namespace std;
 
 void countSort(int arr[],int pos,int n)
 {
-    vector<int>freq(10,0);
-    
+    vector<int>cnt(10,0);    // Initialize count array as 0, and we are taking the size of array=10 bcz we hve only 10 digits (0-9)
+
+
+    // Store count of occurrences in count[]
+
     for(int i=0;i<n;i++)
     {
-        freq[(arr[i]/pos)%10]++;
+        cnt[(arr[i]/pos)%10]++;    // (arr[i] / pos) % 10 extracts the digit at the current position (pos) in the number arr[i].  pos starts from 1 and increases as we move to higher significant digits (tens, hundreds, etc)       
+                                    // ex-> if pos=1, and arr[i]=170, then, (arr[i] / pos) % 10 for arr = 170 gives (170 / 1) % 10 = 0,  (arr[i]/pos) % 10 for arr = 45 gives (45 / 1) % 10 = 5
+
     }
-    
+
+
+
+     // Change count[i] so that count[i] now contains actual position of this digit in output[]
+
     for(int i=1;i<10;i++)
     {
-        freq[i]=freq[i]+freq[i-1];
+        cnt[i]=cnt[i]+cnt[i-1];
     }
     
     vector<int>ans(n);
+
+
+     // Build the output array
     
     for(int i=n-1;i>=0;i--)
     {
-        freq[(arr[i]/pos)%10]--;
+        cnt[(arr[i]/pos)%10]--;
         
-        ans[freq[(arr[i]/pos)%10]]=arr[i];
+        ans[cnt[(arr[i]/pos)%10]]=arr[i];
     }
-    
+
+
+
     for(int i=0;i<n;i++)
     {
-        arr[i]=ans[i];
+        arr[i]=ans[i];   // Copy the output array to arr[], so that arr[] now contains sorted numbers according to current digit
+
     }
 }
 
@@ -37,9 +52,12 @@ void radixSort(int arr[],int n)
     
     for(int i=0;i<n;i++)
     {
-        maxi=max(maxi,arr[i]);
+        maxi=max(maxi,arr[i]);    // Find the maximum number to know number of digits
     }
-    
+
+
+    // Do counting sort for every digit. Note that pos is 10^i where i is current digit number
+
     for(int pos=1;maxi/pos>0;pos*=10)
     {
         countSort(arr,pos,n);
